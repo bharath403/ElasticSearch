@@ -1,0 +1,51 @@
+{
+  "variables": {
+    "ami_id": "ami-4fffc834",
+    "private_subnet_id": "subnet-10d1114b",
+    "security_group_id": "sg-cb1627bb",
+    "packer_build_number": "1"
+  },
+  "description": "ElasticSearch Image",
+  "builders": [
+    {
+      "ami_name": "elasticsearch-{{user `packer_build_number`}}",
+      "availability_zone": "us-east-1c",
+      "iam_instance_profile": "smartconnect-es-instancerole",
+      "instance_type": "t2.medium",
+      "region": "us-east-1",
+      "run_tags": {
+        "role": "packer"
+      },
+      "security_group_ids": [
+        "{{user `security_group_id`}}"
+      ],
+      "source_ami": "{{user `ami_id`}}",
+      "ssh_timeout": "10m",
+      "ssh_username": "ec2-user",
+      "subnet_id": "{{user `private_subnet_id`}}",
+      "tags": {
+        "Name": "elasticsearch-packer-image"
+      },
+      "type": "amazon-ebs"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [ "sleep 10" ]
+    },
+    {
+      "type": "shell",
+      "script": "install_dependencies.sh",
+      "execute_command": "echo '' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "es.yml",
+      "extra_arguments": [
+        "--module-path=./modules"
+      ],
+      "playbook_dir": "."
+    }
+  ]
+}

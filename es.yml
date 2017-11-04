@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  sudo: yes
+  tasks:
+  - name: Install Java 1.8
+    yum: name=java-1.8.0-openjdk state=present
+
+  - name: Remove Java 1.7
+    yum: name=java-1.7.0-openjdk state=absent
+
+ # - name: Install Git
+ #   yum: name=git state=present
+
+ # - name: Install Ansible
+ #   command: git clone git://github.com/ansible/ansible.git --recursive
+
+  - name: Download ElasticSearch 5.5.2
+    command: wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.2.rpm
+    args:
+      chdir: /home/ec2-user/
+
+  - name: Install ElasticSearch
+    command: yum install -y elasticsearch-5.5.2.rpm
+    args:
+      chdir: /home/ec2-user/
+
+  - name: Copy elasticsearch config
+    template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
+  #  notify: Restart elasticsearch
+
+#  - name: Set elasticsearch service to start on boot and running 
+#    service: name=elasticsearch state=started enabled=yes
+
+ # - name: Install ElasticSearch Plugins
+ #   command: bin/elasticsearch-plugin install discovery-ec2 -y
+ #   args:
+ #     chdir: /usr/share/elasticsearch/
+
+ # - name: Set elasticsearch to be running
+ #   service: name=elasticsearch state=running enabled=yes
