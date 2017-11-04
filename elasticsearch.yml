@@ -75,7 +75,7 @@ cloud.node.auto_attributes: true
 cluster.routing.allocation.awareness.attributes: aws_availability_zone
 discovery.ec2.availability_zones: us-east-1c
 discovery.ec2.node_cache_time: 120s
-#discovery.ec2.tag.es_cluster: SmartConnect-ES_PROD
+#discovery.ec2.tag.es_cluster: ES_PROD
 discovery.ec2.groups: sg-cb1627bb
 discovery.type: ec2
 discovery.zen.hosts_provider: ec2

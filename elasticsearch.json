@@ -1,8 +1,8 @@
 {
   "variables": {
-    "ami_id": "ami-4fffc834",
-    "private_subnet_id": "subnet-10d1114b",
-    "security_group_id": "sg-cb1627bb",
+    "ami_id": "ami-4fffc88834",
+    "private_subnet_id": "subnet-10d111114b",
+    "security_group_id": "sg-cb111627bb",
     "packer_build_number": "1"
   },
   "description": "ElasticSearch Image",
@@ -10,7 +10,7 @@
     {
       "ami_name": "elasticsearch-{{user `packer_build_number`}}",
       "availability_zone": "us-east-1c",
-      "iam_instance_profile": "smartconnect-es-instancerole",
+      "iam_instance_profile": "es-instancerole",
       "instance_type": "t2.medium",
       "region": "us-east-1",
       "run_tags": {
